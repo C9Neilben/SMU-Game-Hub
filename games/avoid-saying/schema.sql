@@ -1,0 +1,44 @@
+-- Run this in phpMyAdmin (SQL tab) or via the MySQL CLI to set up the game database.
+
+CREATE DATABASE IF NOT EXISTS avoid_game CHARACTER SET utf8mb4;
+USE avoid_game;
+
+CREATE TABLE IF NOT EXISTS games (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  num_players INT NOT NULL,
+  current_prompter_seat INT NOT NULL DEFAULT 0,
+  round_number INT NOT NULL DEFAULT 1,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS players (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  game_id INT NOT NULL,
+  seat_order INT NOT NULL,
+  name VARCHAR(50) NOT NULL,
+  score INT NOT NULL DEFAULT 0,
+  FOREIGN KEY (game_id) REFERENCES games(id) ON DELETE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS rounds (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  game_id INT NOT NULL,
+  round_number INT NOT NULL,
+  prompter_player_id INT NOT NULL,
+  category VARCHAR(150) NOT NULL,
+  prompter_answer VARCHAR(150) NOT NULL,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (game_id) REFERENCES games(id) ON DELETE CASCADE,
+  FOREIGN KEY (prompter_player_id) REFERENCES players(id) ON DELETE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS answers (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  round_id INT NOT NULL,
+  player_id INT NOT NULL,
+  answer_text VARCHAR(150) NOT NULL,
+  is_match TINYINT(1) NOT NULL DEFAULT 0,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (round_id) REFERENCES rounds(id) ON DELETE CASCADE,
+  FOREIGN KEY (player_id) REFERENCES players(id) ON DELETE CASCADE
+);

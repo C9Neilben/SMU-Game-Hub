@@ -1,0 +1,229 @@
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    background: #121213;
+    color: white;
+}
+
+#board {
+    display: grid;
+    grid-template-rows: repeat(6, 1fr);
+    gap: 5px;
+    width: 330px;
+    margin: 20px auto;
+}
+
+.row {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 5px;
+}
+
+.tile {
+    width: 60px;
+    height: 60px;
+    border: 2px solid #3a3a3c;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 28px;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.correct { background: #538d4e; border-color: #538d4e; }
+.present { background: #b59f3b; border-color: #b59f3b; }
+.absent  { background: #3a3a3c; border-color: #3a3a3c; }
+
+#message {
+    margin: 15px;
+    font-size: 18px;
+    min-height: 24px;
+}
+
+#keyboard {
+    margin-top: 20px;
+}
+
+button {
+    padding: 10px 20px;
+    cursor: pointer;
+}
+
+#keyboard {
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+.key-row {
+    display: flex;
+    justify-content: center;
+    gap: 6px;
+    margin-bottom: 8px;
+}
+
+.key {
+    background: #818384;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 14px 10px;
+    min-width: 36px;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    text-transform: uppercase;
+}
+
+.key-wide {
+    min-width: 60px;
+    font-size: 12px;
+}
+
+.key.correct { background: #538d4e; }
+.key.present { background: #b59f3b; }
+.key.absent  { background: #3a3a3c; }
+
+.key:hover {
+    opacity: 0.85;
+}
+
+/* ---------- Modal ---------- */
+
+#modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+#modal-overlay.hidden {
+    display: none;
+}
+
+#modal-card {
+    background: #1a1a1b;
+    border: 2px solid #3a3a3c;
+    border-radius: 12px;
+    padding: 30px;
+    width: 320px;
+    text-align: center;
+    color: white;
+    animation: modal-pop 0.25s ease-out;
+}
+
+@keyframes modal-pop {
+    from { transform: scale(0.85); opacity: 0; }
+    to   { transform: scale(1); opacity: 1; }
+}
+
+#modal-content h2 {
+    margin: 0 0 10px;
+}
+
+.modal-subtitle {
+    color: #d7dadc;
+    margin: 6px 0 16px;
+}
+
+/* ---------- Win modal: math bonus ---------- */
+
+.math-question {
+    font-size: 28px;
+    font-weight: bold;
+    margin: 10px 0 20px;
+}
+
+.math-choices {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+    margin-bottom: 12px;
+}
+
+.math-choice {
+    padding: 12px;
+    font-size: 18px;
+    font-weight: bold;
+    border: none;
+    border-radius: 6px;
+    background: #3a3a3c;
+    color: white;
+    cursor: pointer;
+}
+
+.math-choice:hover:not(:disabled) {
+    background: #565758;
+}
+
+.math-choice.correct { background: #538d4e; }
+.math-choice.absent  { background: #8b3a3a; }
+
+#math-feedback {
+    min-height: 20px;
+    font-size: 14px;
+}
+
+/* ---------- Lose modal: banana ---------- */
+
+.banana-wrap {
+    display: flex;
+    justify-content: center;
+    margin: 10px 0;
+}
+
+.banana-svg {
+    width: 140px;
+    height: 140px;
+    animation: banana-drop 0.4s ease-out;
+}
+
+@keyframes banana-drop {
+    from { transform: translateY(-30px) rotate(-15deg); opacity: 0; }
+    to   { transform: translateY(0) rotate(0deg); opacity: 1; }
+}
+
+/* ---------- Shared modal buttons ---------- */
+
+#modal-play-again,
+#modal-try-again {
+    margin-top: 10px;
+    padding: 10px 24px;
+    font-size: 16px;
+    font-weight: bold;
+    border: none;
+    border-radius: 6px;
+    background: #538d4e;
+    color: white;
+    cursor: pointer;
+}
+
+#modal-play-again:hover,
+#modal-try-again:hover {
+    background: #62a058;
+}
+
+#modal-play-again.hidden {
+    display: none;
+}
+
+.back-link {
+    display: inline-block;
+    background: #8ab4f8;
+    color: #1a1a2e;
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: bold;
+    padding: 8px 16px;
+    border-radius: 8px;
+    margin-bottom: 16px;
+    transition: background 0.15s ease;
+}
+
+.back-link:hover {
+    background: #a9c8ff;
+    text-decoration: none;
+}

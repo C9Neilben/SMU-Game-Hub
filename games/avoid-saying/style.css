@@ -1,0 +1,129 @@
+* { box-sizing: border-box; }
+
+body {
+    font-family: -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+    background: linear-gradient(135deg, #6d5bd0, #8f6fe0);
+    min-height: 100vh;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.card {
+    background: #fff;
+    border-radius: 16px;
+    padding: 32px;
+    max-width: 480px;
+    width: 100%;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.25);
+}
+
+h1 { margin-top: 0; font-size: 1.6rem; }
+h2 { font-size: 1.3rem; color: #4b3aa0; }
+
+p { color: #444; line-height: 1.4; }
+
+label {
+    display: block;
+    font-weight: 600;
+    margin: 14px 0 6px;
+    color: #333;
+}
+
+input[type="text"], select {
+    width: 100%;
+    padding: 10px 12px;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    font-size: 1rem;
+}
+
+input[type="text"]:focus, select:focus {
+    outline: none;
+    border-color: #6d5bd0;
+}
+
+button {
+    margin-top: 18px;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 8px;
+    background: #6d5bd0;
+    color: #fff;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+button:hover { background: #5a49bc; }
+
+button.secondary {
+    background: #eee;
+    color: #555;
+}
+button.secondary:hover { background: #ddd; }
+
+.scoreboard {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: 18px;
+}
+
+.score-pill {
+    background: #f1eefc;
+    color: #4b3aa0;
+    padding: 4px 10px;
+    border-radius: 999px;
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+.score-pill.prompter {
+    background: #4b3aa0;
+    color: #fff;
+}
+
+.category-box {
+    background: #f7f5ff;
+    border-left: 4px solid #6d5bd0;
+    padding: 10px 14px;
+    border-radius: 6px;
+}
+
+.prompter-answer {
+    background: #fff3e0;
+    border-left: 4px solid #ffa726;
+    padding: 10px 14px;
+    border-radius: 6px;
+}
+
+.answer-list {
+    list-style: none;
+    padding: 0;
+}
+
+.answer-list li {
+    padding: 10px 12px;
+    border-radius: 8px;
+    margin-bottom: 8px;
+    font-weight: 500;
+}
+
+.answer-list li.safe { background: #e7f6ec; color: #226b3a; }
+.answer-list li.match { background: #fdeaea; color: #a12a2a; }
+
+.final-list {
+    padding-left: 20px;
+}
+.final-list li {
+    font-size: 1.1rem;
+    margin-bottom: 6px;
+}
+
+.hint {
+    font-size: 0.85rem;
+    color: #888;
+}
