@@ -1,5 +1,16 @@
 <?php
+// edit_game.php — pre-filled form to update an existing game
 require '../shared/db.php';
+
+$gameId = (int)($_GET['id'] ?? $_POST['game_id'] ?? 0);
+
+$stmt = $pdo->prepare("SELECT * FROM games WHERE game_id = ?");
+$stmt->execute([$gameId]);
+$game = $stmt->fetch();
+
+if (!$game) {
+    die("Game not found. <a href='admin.php'>Back to admin</a>");
+}
 
 $message = '';
 
@@ -11,9 +22,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if ($title === '' || $slug === '') {
         $message = "Title and slug are required.";
     } else {
-        $thumbnailPath = null;
+        $thumbnailPath = $game['thumbnail']; // keep existing unless a new file is uploaded
 
-        // Handle file upload
         if (!empty($_FILES['thumbnail']['name'])) {
             $uploadDir = '../assets/thumbs/';
             $ext = strtolower(pathinfo($_FILES['thumbnail']['name'], PATHINFO_EXTENSION));
@@ -26,39 +36,48 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $destination = $uploadDir . $filename;
 
                 if (move_uploaded_file($_FILES['thumbnail']['tmp_name'], $destination)) {
+                    // Delete old thumbnail file if it exists, to avoid orphaned images
+                    if ($game['thumbnail'] && file_exists('../' . $game['thumbnail'])) {
+                        unlink('../' . $game['thumbnail']);
+                    }
                     $thumbnailPath = 'assets/thumbs/' . $filename;
                 } else {
-                    $message = "Failed to upload thumbnail.";
+                    $message = "Failed to upload new thumbnail.";
                 }
             }
         }
 
-        // Only insert if no error so far
         if ($message === '') {
             try {
                 $stmt = $pdo->prepare(
-                    "INSERT INTO games (title, slug, description, thumbnail) VALUES (?, ?, ?, ?)"
+                    "UPDATE games SET title = ?, slug = ?, description = ?, thumbnail = ? WHERE game_id = ?"
                 );
-                $stmt->execute([$title, $slug, $description, $thumbnailPath]);
-                $message = "Game '$title' added successfully.";
+                $stmt->execute([$title, $slug, $description, $thumbnailPath, $gameId]);
+                header('Location: admin.php');
+                exit;
             } catch (PDOException $e) {
                 $message = "Error: slug might already exist. (" . $e->getMessage() . ")";
             }
         }
     }
+
+    // Refresh $game with attempted values so the form doesn't lose input on error
+    $game['title'] = $title;
+    $game['slug'] = $slug;
+    $game['description'] = $description;
 }
 ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Admin - Add Game</title>
+    <title>Edit Game - SMU Game Hub</title>
     <link rel="stylesheet" href="style.css?v=<?= time() ?>">
 </head>
 <body>
 
     <header>
-        <h1>Add a New Game</h1>
+        <h1>Edit Game</h1>
     </header>
 
     <main style="max-width: 500px; margin: 0 auto; padding: 20px;">
@@ -67,55 +86,33 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <?php endif; ?>
 
         <form method="POST" enctype="multipart/form-data" style="display:flex; flex-direction:column; gap:12px;">
+            <input type="hidden" name="game_id" value="<?= $game['game_id'] ?>">
+
             <label>Title
-                <input type="text" name="title" required>
+                <input type="text" name="title" value="<?= htmlspecialchars($game['title']) ?>" required>
             </label>
 
             <label>Slug (must match folder name in /games/)
-                <input type="text" name="slug" required placeholder="e.g. wordle">
+                <input type="text" name="slug" value="<?= htmlspecialchars($game['slug']) ?>" required>
             </label>
 
             <label>Description
-                <textarea name="description" rows="3"></textarea>
+                <textarea name="description" rows="3"><?= htmlspecialchars($game['description']) ?></textarea>
             </label>
 
-            <label>Thumbnail image
+            <label>Current thumbnail
+                <br>
+                <img src="../<?= htmlspecialchars($game['thumbnail'] ?: 'assets/thumbs/default.png') ?>" style="width:100px; border-radius:8px; margin-top:6px;">
+            </label>
+
+            <label>Replace thumbnail (optional)
                 <input type="file" name="thumbnail" accept="image/*">
             </label>
 
-            <button type="submit">Add Game</button>
+            <button type="submit">Save Changes</button>
         </form>
-        <hr style="margin: 30px 0; border-color: #333;">
 
-<h2>Existing Games</h2>
-<?php
-$existingGames = $pdo->query("SELECT * FROM games ORDER BY created_at DESC")->fetchAll();
-?>
-
-<?php if (empty($existingGames)): ?>
-    <p>No games added yet.</p>
-<?php else: ?>
-    <div class="game-list">
-        <?php foreach ($existingGames as $g): ?>
-            <div class="game-list-item">
-                <img src="../<?= htmlspecialchars($g['thumbnail'] ?: 'assets/thumbs/default.png') ?>" alt="">
-                <div class="game-list-info">
-                    <strong><?= htmlspecialchars($g['title']) ?></strong>
-                    <span class="slug-text">/<?= htmlspecialchars($g['slug']) ?></span>
-                </div>
-                <div class="game-list-actions">
-                    <a href="edit_game.php?id=<?= $g['game_id'] ?>" class="edit-btn">Edit</a>
-                    <form method="POST" action="delete_game.php" onsubmit="return confirm('Delete &quot;<?= htmlspecialchars($g['title']) ?>&quot;? This cannot be undone.');" style="display:inline;">
-                        <input type="hidden" name="game_id" value="<?= $g['game_id'] ?>">
-                        <button type="submit" class="delete-btn">Delete</button>
-                    </form>
-                </div>
-            </div>
-        <?php endforeach; ?>
-    </div>
-<?php endif; ?>
-
-        <a href="index.php" class="back-link">← Back to Hub</a>
+        <p style="margin-top:20px;"><a href="admin.php" class="back-link">← Back to Admin</a></p>
     </main>
 
 </body>

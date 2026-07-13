@@ -110,3 +110,73 @@ button:hover {
     background: #a9c8ff;
     text-decoration: none;
 }
+
+.game-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.game-list-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: #22223b;
+    padding: 10px 14px;
+    border-radius: 10px;
+}
+
+.game-list-item img {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    border-radius: 6px;
+    background: #333;
+}
+
+.game-list-info {
+    flex-grow: 1;
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+}
+
+.slug-text {
+    font-size: 0.8rem;
+    color: #999;
+}
+
+.game-list-actions {
+    display: flex;
+    gap: 6px;
+}
+
+.edit-btn, .delete-btn {
+    padding: 6px 12px;
+    border-radius: 6px;
+    border: none;
+    font-size: 0.85rem;
+    font-weight: bold;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.edit-btn {
+    background: #8ab4f8;
+    color: #1a1a2e;
+}
+
+.edit-btn:hover {
+    background: #a9c8ff;
+}
+
+.delete-btn {
+    background: #f28b82;
+    color: #1a1a2e;
+}
+
+.delete-btn:hover {
+    background: #f7a8a1;
+}

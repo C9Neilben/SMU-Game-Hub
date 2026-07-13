@@ -15,7 +15,7 @@ $games = $stmt->fetchAll();
 
     <header>
         <h1>SMU Game Hub</h1>
-        <a href="admin.php" class="add-game-btn">+ Add New Game</a>
+        <a href="admin.php" class="add-game-btn">Manage Games</a>
     </header>
 
     <main class="grid">
