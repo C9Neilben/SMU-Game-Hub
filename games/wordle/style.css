@@ -1,8 +1,10 @@
 body {
-    font-family: Arial, sans-serif;
+    font-family: sans-serif;
     text-align: center;
-    background: #121213;
-    color: white;
+    background: #1a1a2e;
+    color: #eee;
+    margin: 0;
+    padding: 0;
 }
 
 #board {
@@ -43,16 +45,9 @@ body {
 
 #keyboard {
     margin-top: 20px;
-}
-
-button {
-    padding: 10px 20px;
-    cursor: pointer;
-}
-
-#keyboard {
     max-width: 500px;
-    margin: 0 auto;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .key-row {
@@ -63,8 +58,8 @@ button {
 }
 
 .key {
-    background: #818384;
-    color: white;
+    background: #22223b;
+    color: #eee;
     border: none;
     border-radius: 4px;
     padding: 14px 10px;
@@ -105,13 +100,13 @@ button {
 }
 
 #modal-card {
-    background: #1a1a1b;
+    background: #22223b;
     border: 2px solid #3a3a3c;
     border-radius: 12px;
     padding: 30px;
     width: 320px;
     text-align: center;
-    color: white;
+    color: #eee;
     animation: modal-pop 0.25s ease-out;
 }
 
@@ -125,7 +120,7 @@ button {
 }
 
 .modal-subtitle {
-    color: #d7dadc;
+    color: #aaa;
     margin: 6px 0 16px;
 }
 
@@ -151,12 +146,12 @@ button {
     border: none;
     border-radius: 6px;
     background: #3a3a3c;
-    color: white;
+    color: #eee;
     cursor: pointer;
 }
 
 .math-choice:hover:not(:disabled) {
-    background: #565758;
+    background: #4a4a4d;
 }
 
 .math-choice.correct { background: #538d4e; }
@@ -195,15 +190,15 @@ button {
     font-size: 16px;
     font-weight: bold;
     border: none;
-    border-radius: 6px;
-    background: #538d4e;
-    color: white;
+    border-radius: 8px;
+    background: #8ab4f8;
+    color: #1a1a2e;
     cursor: pointer;
 }
 
 #modal-play-again:hover,
 #modal-try-again:hover {
-    background: #62a058;
+    background: #a9c8ff;
 }
 
 #modal-play-again.hidden {
