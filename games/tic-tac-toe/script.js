@@ -12,6 +12,7 @@ const roundInfoEl   = document.getElementById('round-info');
 
 let roundOver = false;
 let matchOver = false;
+let currentMode = null;
 
 function getSelectedBestOf() {
     return document.querySelector('input[name="best_of"]:checked').value;
@@ -20,6 +21,7 @@ function getSelectedBestOf() {
 async function startMatch(mode) {
     roundOver = false;
     matchOver = false;
+    currentMode = mode;
     const bestOf = getSelectedBestOf();
 
     const res = await fetch('new_game.php', {
@@ -85,6 +87,16 @@ async function handleCellClick(e) {
                 ? "Match tied!"
                 : `${data.match_winner} wins the match!`;
             updateStatus(msg);
+
+            // Video modal — for vs AI, map to human's perspective (X = human, O = AI).
+            // For 2-player or a draw, just celebrate whoever won with the win video.
+            if (data.match_winner !== 'draw') {
+                if (currentMode === 'vs_ai') {
+                    showResultModal(data.match_winner === 'X' ? 'win' : 'lose');
+                } else {
+                    showResultModal('win', `${data.match_winner} Wins the Match! 🎉`);
+                }
+            }
         } else {
             const roundMsg = data.winner === 'draw' ? "Round draw!" : `${data.winner} wins the round!`;
             updateStatus(roundMsg);

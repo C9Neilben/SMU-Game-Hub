@@ -54,15 +54,16 @@ async function handleCardClick(e) {
     boardLocked = true;
 
     if (data.matched) {
-        firstCardEl.classList.add('matched');
-        card.classList.add('matched');
-        boardLocked = false;
-        firstCardEl = null;
+    firstCardEl.classList.add('matched');
+    card.classList.add('matched');
+    boardLocked = false;
+    firstCardEl = null;
 
-        if (data.game_over) {
-            movesText.textContent = `Solved in ${data.moves} moves! 🎉`;
-        }
-    } else {
+    if (data.game_over) {
+        movesText.textContent = `Solved in ${data.moves} moves! 🎉`;
+        showResultModal('win', `Solved in ${data.moves} moves! 🎉`);
+    }
+} else {
         // No match — briefly show both, then flip back down
         setTimeout(() => {
             hideCard(firstCardEl);

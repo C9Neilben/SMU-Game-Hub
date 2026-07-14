@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>Memory Match - SMU Game Hub</title>
     <link rel="stylesheet" href="style.css?v=<?= time() ?>">
+    <link rel="stylesheet" href="../../shared/result-modal.css">
 </head>
 <body>
 
@@ -32,7 +33,7 @@
 
         <button id="restart-btn">New Game</button>
     </main>
-
+<script src="../../shared/result-modal.js"></script>
     <script src="script.js"></script>
 </body>
 </html>

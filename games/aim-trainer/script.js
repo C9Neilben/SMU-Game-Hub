@@ -155,6 +155,7 @@ function endGame() {
 
     gameScreen.classList.add('hidden');
     resultsScreen.classList.remove('hidden');
+    showResultModal('win', `Session Complete — ${score} pts!`);
 
     resultsScreen.dataset.score = score;
     resultsScreen.dataset.accuracy = accuracy;
